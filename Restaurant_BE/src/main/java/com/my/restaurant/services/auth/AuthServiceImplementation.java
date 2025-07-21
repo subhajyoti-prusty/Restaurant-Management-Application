@@ -19,6 +19,22 @@ public class AuthServiceImplementation implements AuthService {
 
     @Override
     public UserDto createUser(SignupRequest signupRequest) {
+
+        if (signupRequest == null || signupRequest.getEmail() == null || signupRequest.getPassword() == null) {
+            throw new RuntimeException("Invalid signup request");
+        }
+
+        // Extra validation for email format using regex
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        if (!signupRequest.getEmail().matches(emailRegex)) {
+            throw new RuntimeException("Invalid email format");
+        }
+        
+        User existingUser = userRepo.findByEmail(signupRequest.getEmail());
+        if (existingUser != null) {
+            throw new RuntimeException("Email already exists");
+        }
+        
         User user = new User();
         user.setName(signupRequest.getName());
         user.setEmail(signupRequest.getEmail());
