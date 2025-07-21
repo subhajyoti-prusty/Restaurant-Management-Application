@@ -24,12 +24,13 @@ public class AuthServiceImplementation implements AuthService {
             throw new RuntimeException("Invalid signup request");
         }
 
-        // Extra validation for email format using regex
+        // Validation for email format using regex
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         if (!signupRequest.getEmail().matches(emailRegex)) {
             throw new RuntimeException("Invalid email format");
         }
         
+        // Check if the user already exists
         User existingUser = userRepo.findByEmail(signupRequest.getEmail());
         if (existingUser != null) {
             throw new RuntimeException("Email already exists");
