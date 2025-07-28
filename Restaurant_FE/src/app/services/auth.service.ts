@@ -14,6 +14,10 @@ export class AuthService {
   ) { }
 
   signup(signupRequest: any): Observable<any> {
-    return this.http.post<[]>(BASIC_URL + "api/auth/signup", signupRequest)
+    return this.http.post<[]>(BASIC_URL + "api/auth/signup", signupRequest);
+  }
+
+  login(loginRequest: any): Observable<any> {
+    return this.http.post<[]>(BASIC_URL + "api/auth/login", loginRequest);
   }
 }

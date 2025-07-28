@@ -13,13 +13,15 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { SignupComponent } from './auth/signup/signup.component';
 import { NgZorroModule } from './Shared/NgZorroModule';
 import { PrimeNgModule } from './Shared/PrimeNgModule';
+import { LoginComponent } from './auth/login/login.component';
 
 registerLocaleData(en);
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignupComponent
+    SignupComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
