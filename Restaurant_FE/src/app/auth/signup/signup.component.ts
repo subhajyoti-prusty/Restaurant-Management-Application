@@ -20,12 +20,16 @@ export class SignupComponent {
       return { required: true };
     }
     if (control.value !== this.signupForm.controls['password'].value) {
-      return { confirm: true, error: true};
+      return { confirm: true, error: true };
     }
     return {};
   };
 
-  constructor(private service: AuthService, private fb: FormBuilder, private notification: NzNotificationService) {}
+  constructor(
+    private service: AuthService,
+    private fb: FormBuilder,
+    private notification: NzNotificationService
+  ) {}
 
   ngOnInit() {
     this.signupForm = this.fb.group({
@@ -40,7 +44,11 @@ export class SignupComponent {
     console.log(this.signupForm.value);
     this.service.signup(this.signupForm.value).subscribe({
       next: (response) => {
-        this.notification.success('SUCCESS', 'You have successfully signed up!',{nzDuration: 5000});
+        this.notification.success(
+          'SUCCESS',
+          'You have successfully signed up!',
+          { nzDuration: 5000 }
+        );
         this.signupForm.reset();
         console.log('Signup successful', response);
       },
