@@ -4,6 +4,8 @@ import com.my.restaurant.dto.AuthenticationRequest;
 import com.my.restaurant.dto.AuthenticationResponse;
 import com.my.restaurant.dto.SignupRequest;
 import com.my.restaurant.dto.UserDto;
+import com.my.restaurant.entity.User;
+import com.my.restaurant.repository.UserRepo;
 import com.my.restaurant.services.auth.AuthService;
 import com.my.restaurant.services.auth.jwt.UserDetailsServiceImpl;
 import com.my.restaurant.util.JwtUtil;
@@ -22,6 +24,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -35,11 +38,14 @@ public class AuthController {
 
     private final JwtUtil jwtUtil;
 
-    public AuthController(AuthService authService, AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService, JwtUtil jwtUtil) {
+    private final UserRepo userRepo;
+
+    public AuthController(AuthService authService, AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService, JwtUtil jwtUtil, UserRepo userRepo) {
         this.authService = authService;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
+        this.userRepo = userRepo;
     }
 
     @PostMapping("/signup")
@@ -78,10 +84,15 @@ public class AuthController {
         }
 
         final UserDetails userDetails =  userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
-
         final String jwt = jwtUtil.generateToken(userDetails.getUsername());
-
-        return new AuthenticationResponse(jwt);
+        Optional<User> optionalUser = userRepo.findFirstByEmail(userDetails.getUsername());
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+        if(optionalUser.isPresent()){
+            authenticationResponse.setJwt(jwt);
+            authenticationResponse.setUserRole(optionalUser.get().getUserRole());
+            authenticationResponse.setUserId(optionalUser.get().getId());
+        }
+        return authenticationResponse;
     }
 
 }
