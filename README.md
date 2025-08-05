@@ -2,20 +2,40 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Angular-19-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular" />
-  <img src="https://img.shields.io/badge/Spring_Boot-3.5-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot" />
+  <img src="https://i3. Push to the branch (`git push origin feature/amazing-feature`)
+4. Open a Pull Request
+
+## ⚠️ Important Notes
+
+- **Security**: This is a development version. Database credentials are currently hard-coded and should be moved to environment variables before production.
+- **Features**: Many features mentioned in the initial planning are not yet implemented.
+- **Testing**: Unit and integration tests need to be expanded.
+- **Documentation**: API documentation with Swagger/OpenAPI needs to be added.
+
+## 📝 Licensehields.io/badge/Spring_Boot-3.5-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot" />
   <img src="https://img.shields.io/badge/MySQL-8-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
   <img src="https://img.shields.io/badge/Java-21-007396?style=for-the-badge&logo=java&logoColor=white" alt="Java" />
+  <img src="https://img.shields.io/badge/Status-In_Development-yellow?style=for-the-badge" alt="Status" />
 </p>
 
-A comprehensive restaurant management system built with Spring Boot and Angular, designed to streamline restaurant operations including order management, menu management, inventory tracking, and customer relationship management.
+A restaurant management system built with Spring Boot and Angular. This project is currently in early development and focuses on establishing the core authentication and authorization foundation for future restaurant management features.
 
-## 🌟 Features
+## 🌟 Current Features
 
+### ✅ Implemented
 - **User Authentication & Authorization**
-  - Secure login and signup functionality
-  - Role-based access control (Admin, Staff, Customer)
-  - JWT token-based authentication
+  - Secure JWT-based authentication
+  - User registration and login functionality
+  - Role-based access control (Admin, Customer)
+  - Password encryption and security
 
+### 🚧 In Development
+- **Responsive UI Framework**
+  - Angular-based frontend with routing
+  - PrimeNG and Ng-Zorro component integration
+  - Admin and Customer module structure
+
+### 📋 Planned Features
 - **Menu Management**
   - Create, update, and delete menu items
   - Categorize menu items
@@ -36,11 +56,6 @@ A comprehensive restaurant management system built with Spring Boot and Angular,
   - Popular items analysis
   - Revenue tracking
 
-- **Responsive UI**
-  - Modern interface built with Angular
-  - PrimeNG and Ng-Zorro components
-  - Mobile-friendly design
-
 ## 🛠️ Tech Stack
 
 ### Backend
@@ -56,8 +71,10 @@ A comprehensive restaurant management system built with Spring Boot and Angular,
 - **PrimeNG** 19.1.3 - UI component library
 - **Ng-Zorro** 19.3.1 - Ant Design for Angular
 - **RxJS** - Reactive programming
-- **Chart.js** - For data visualization
-- **Bootstrap** 5.3 - For responsive design
+- **Chart.js** 4.5.0 - For future data visualization
+- **Bootstrap** 5.3.7 - For responsive design
+- **JWT Decode** - Token handling
+- **Sass** - Styling
 
 ## 📋 Prerequisites
 
@@ -79,7 +96,8 @@ A comprehensive restaurant management system built with Spring Boot and Angular,
 
 2. **Configure MySQL database**
    - Create a database named `restaurant_management_db`
-   - Update `src/main/resources/application.properties` with your database credentials if needed
+   - Set up database credentials (see [ENVIRONMENT.md](ENVIRONMENT.md) for detailed setup)
+   - Either set environment variable `DB_PASSWORD` or update `application.properties`
 
 3. **Build and run the Spring Boot application**
    ```bash
@@ -109,14 +127,22 @@ A comprehensive restaurant management system built with Spring Boot and Angular,
 ## 🚀 Usage
 
 1. Access the application at `http://localhost:4200`
-2. Login with the following default credentials:
-   - **Admin:** admin@restaurant.com / admin123
-   - **Staff:** staff@restaurant.com / staff123
-   - **Customer:** Register a new account through the signup page
+2. Register a new account through the signup page or login with existing credentials
+3. Currently available features:
+   - User registration and authentication
+   - Basic routing to admin and customer dashboards (UI structure only)
+
+**Note**: This is an early development version. Most management features are not yet implemented.
 
 ## 📊 API Documentation
 
-The API documentation is available at `http://localhost:8081/swagger-ui.html` once the backend server is running.
+API documentation will be available once Swagger/OpenAPI is integrated. Currently, the following endpoints are available:
+
+### Authentication Endpoints
+- `POST /api/auth/signup` - User registration
+- `POST /api/auth/login` - User authentication
+
+*More endpoints will be documented as features are implemented.*
 
 ## 📁 Project Structure
 
@@ -129,13 +155,14 @@ Restaurant-Management-Application/
 │   │   │   ├── java/
 │   │   │   │   └── com/my/restaurant/
 │   │   │   │       ├── config/     # Security & CORS configuration
-│   │   │   │       ├── controller/ # REST endpoints
+│   │   │   │       ├── controller/ # REST endpoints (Auth only)
 │   │   │   │       ├── dto/        # Data Transfer Objects
-│   │   │   │       ├── entity/     # JPA entities
-│   │   │   │       ├── enums/      # Enum types
-│   │   │   │       ├── repository/ # Database access
-│   │   │   │       ├── services/   # Business logic
-│   │   │   │       └── util/       # Utility classes
+│   │   │   │       ├── entity/     # JPA entities (User)
+│   │   │   │       ├── enums/      # Enum types (UserRole)
+│   │   │   │       ├── exception/  # Exception handling
+│   │   │   │       ├── repository/ # Database access (UserRepo)
+│   │   │   │       ├── services/   # Business logic (Auth services)
+│   │   │   │       └── util/       # Utility classes (JWT)
 │   │   │   └── resources/
 │   │   │       └── application.properties # App configuration
 │   │   └── test/                  # Test cases
@@ -144,13 +171,38 @@ Restaurant-Management-Application/
 └── Restaurant_FE/                 # Frontend Angular Application
     ├── src/
     │   ├── app/
-    │   │   ├── auth/              # Authentication components
-    │   │   ├── services/          # API services
-    │   │   └── shared/            # Shared modules & components
+    │   │   ├── auth/              # Authentication components (Login/Signup)
+    │   │   ├── management/        # Admin & Customer modules (Structure only)
+    │   │   ├── services/          # API services (Auth & Storage)
+    │   │   └── shared/            # Shared modules (NgZorro, PrimeNG)
     │   └── assets/                # Static assets
     ├── angular.json               # Angular configuration
     └── package.json               # NPM dependencies
 ```
+
+## 🚧 Development Status & Roadmap
+
+### Phase 1: Foundation (Current) ✅
+- [x] Project structure setup
+- [x] Spring Boot backend with MySQL integration
+- [x] Angular frontend with routing
+- [x] JWT-based authentication system
+- [x] User registration and login
+- [x] Basic security configuration
+
+### Phase 2: Core Features (Next)
+- [ ] Menu management system
+- [ ] Order processing workflow
+- [ ] Admin dashboard implementation
+- [ ] Customer dashboard implementation
+- [ ] API documentation with Swagger
+
+### Phase 3: Advanced Features (Future)
+- [ ] Inventory management
+- [ ] Reporting and analytics
+- [ ] Real-time notifications
+- [ ] Payment integration
+- [ ] Mobile optimization
 
 ## 🤝 Contributing
 
