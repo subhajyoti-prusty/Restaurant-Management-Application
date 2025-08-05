@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { StorageService } from '../../services/storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent {
   constructor(
     private service: AuthService,
     private fb: FormBuilder,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private route: Router
   ) { }
 
   ngOnInit() {
@@ -41,6 +43,14 @@ export class LoginComponent {
           console.log('User data:', user);
           StorageService.saveToken(response.jwt);
           StorageService.saveUser(user);
+          if (StorageService.isAdminLoggedIn()) {
+            this.route.navigateByUrl('admin/dashboard');
+          } else if (StorageService.isCustomerLoggedIn()) {
+            this.route.navigateByUrl('customer/dashboard');
+          } else {
+            this.notification.error('ERROR', 'Invalid user role', { nzDuration: 5000 });
+            return;
+          }
         } else {
           this.notification.error('ERROR', 'Invalid user credentials', { nzDuration: 5000 });
           return;

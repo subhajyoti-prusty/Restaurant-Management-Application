@@ -15,7 +15,7 @@ export class StorageService {
     window.localStorage.setItem(TOKEN, token);
   }
 
-  static getToken(): string | null {
+  static getToken(): string{
     return window.localStorage.getItem(TOKEN);
   }
 
@@ -30,10 +30,48 @@ export class StorageService {
 
   static getUser(): any {
     const user = window.localStorage.getItem(USER);
-    return user ? JSON.parse(user) : null;
+    return JSON.parse(user);
   }
 
   static removeUser(): void {
     window.localStorage.removeItem(USER);
+  }
+
+  static getUserRole(): string {
+    const user = this.getUser();
+    if (user === null) {
+      return '';
+    }
+    return user.userRole;
+  }
+
+  static isAdminLoggedIn(): boolean {
+
+    if (this.getToken() === null) {
+      return false;      
+    }
+
+    const userRole = this.getUserRole();
+
+    if (userRole === '') {
+      return false;
+    }
+    
+    return userRole == 'ADMIN';
+  }
+
+  static isCustomerLoggedIn(): boolean {
+
+    if (this.getToken() === null) {
+      return false;      
+    }
+
+    const userRole = this.getUserRole();
+
+    if (userRole === '') {
+      return false;
+    }
+    
+    return userRole == 'CUSTOMER';
   }
 }

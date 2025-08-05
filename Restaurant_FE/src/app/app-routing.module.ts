@@ -16,6 +16,14 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./management/admin/admin.module').then(m => m.AdminModule)
+  },
+  {
+    path:'customer',
+    loadChildren: () => import('./management/customer/customer.module').then(m => m.CustomerModule)
   }
 ];
 

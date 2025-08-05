@@ -5,6 +5,7 @@ import com.my.restaurant.dto.UserDto;
 import com.my.restaurant.entity.User;
 import com.my.restaurant.enums.UserRole;
 import com.my.restaurant.repository.UserRepo;
+import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,19 @@ public class AuthServiceImplementation implements AuthService {
 
     public AuthServiceImplementation(UserRepo userRepo) {
         this.userRepo = userRepo;
+    }
+
+    @PostConstruct
+    public void createAdminAccount(){
+        User adminAccount = userRepo.findByUserRole(UserRole.ADMIN);
+        if(adminAccount == null){
+            User user = new User();
+            user.setName("Admin");
+            user.setEmail("admin@test.com");
+            user.setPassword(new BCryptPasswordEncoder().encode("Admin"));
+            user.setUserRole(UserRole.ADMIN);
+            userRepo.save(user);
+        }
     }
 
     @Override
