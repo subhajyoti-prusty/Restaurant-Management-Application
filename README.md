@@ -2,8 +2,11 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Angular-19-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular" />
-  <img src="https://i3. Push to the branch (`git push origin feature/amazing-feature`)
-4. Open a Pull Request
+  <img src="https://img.shields.io/badge/Spring_Boot-3.5-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot" />
+  <img src="https://img.shields.io/badge/MySQL-8-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
+  <img src="https://img.shields.io/badge/Java-21-007396?style=for-the-badge&logo=java&logoColor=white" alt="Java" />
+  <img src="https://img.shields.io/badge/Status-In_Development-yellow?style=for-the-badge" alt="Status" />
+</p>
 
 ## ⚠️ Important Notes
 
@@ -11,12 +14,6 @@
 - **Features**: Many features mentioned in the initial planning are not yet implemented.
 - **Testing**: Unit and integration tests need to be expanded.
 - **Documentation**: API documentation with Swagger/OpenAPI needs to be added.
-
-## 📝 Licensehields.io/badge/Spring_Boot-3.5-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot" />
-  <img src="https://img.shields.io/badge/MySQL-8-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
-  <img src="https://img.shields.io/badge/Java-21-007396?style=for-the-badge&logo=java&logoColor=white" alt="Java" />
-  <img src="https://img.shields.io/badge/Status-In_Development-yellow?style=for-the-badge" alt="Status" />
-</p>
 
 A restaurant management system built with Spring Boot and Angular. This project is currently in early development and focuses on establishing the core authentication and authorization foundation for future restaurant management features.
 
