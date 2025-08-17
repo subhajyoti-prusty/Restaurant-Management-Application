@@ -1,4 +1,4 @@
-package com.my.restaurant.services.auth.jwt;
+package com.my.restaurant.services.jwt;
 
 import com.my.restaurant.entity.User;
 import com.my.restaurant.repository.UserRepo;
