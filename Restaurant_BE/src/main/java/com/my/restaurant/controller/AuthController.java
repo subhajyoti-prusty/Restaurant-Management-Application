@@ -7,10 +7,11 @@ import com.my.restaurant.dto.UserDto;
 import com.my.restaurant.entity.User;
 import com.my.restaurant.repository.UserRepo;
 import com.my.restaurant.services.auth.AuthService;
-import com.my.restaurant.services.jwt.UserDetailsServiceImpl;
+import com.my.restaurant.services.jwt.UserService;
 import com.my.restaurant.util.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,25 +28,19 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
 
     private final AuthenticationManager authenticationManager;
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserService userService;
 
     private final JwtUtil jwtUtil;
 
     private final UserRepo userRepo;
 
-    public AuthController(AuthService authService, AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService, JwtUtil jwtUtil, UserRepo userRepo) {
-        this.authService = authService;
-        this.authenticationManager = authenticationManager;
-        this.userDetailsService = userDetailsService;
-        this.jwtUtil = jwtUtil;
-        this.userRepo = userRepo;
-    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signupUser(@Valid @RequestBody SignupRequest signupRequest, BindingResult bindingResult) {
@@ -82,8 +77,8 @@ public class AuthController {
             return null;
         }
 
-        final UserDetails userDetails =  userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
-        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
+        final UserDetails userDetails =  userService.UserDetailsService().loadUserByUsername(authenticationRequest.getEmail());
+        final String jwt = jwtUtil.generateToken(userDetails);
         Optional<User> optionalUser = userRepo.findFirstByEmail(userDetails.getUsername());
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         if(optionalUser.isPresent()){
