@@ -32,17 +32,43 @@ export class LoginComponent {
   }
 
   onLogin() {
+    if (this.loginForm.invalid) {
+      Object.keys(this.loginForm.controls).forEach(key => {
+        this.loginForm.get(key)?.markAsTouched();
+      });
+      this.notification.warning(
+        'Form Validation',
+        'Please fill in all required fields.',
+        { nzDuration: 3000 }
+      );
+      return;
+    }
+
+    this.isSpinning = true;
     console.log(this.loginForm.value);
+    
     this.service.login(this.loginForm.value).subscribe({
       next: (response) => {
-        if (response.userId != null) {
+        this.isSpinning = false;
+        
+        // Handle the new response structure
+        const authData = response.authentication || response;
+        
+        if (authData.userId != null && authData.jwt) {
           const user = {
-            userId: response.userId,
-            userRole: response.userRole,
+            userId: authData.userId,
+            userRole: authData.userRole,
           }
           console.log('User data:', user);
-          StorageService.saveToken(response.jwt);
+          StorageService.saveToken(authData.jwt);
           StorageService.saveUser(user);
+          
+          this.notification.success(
+            'SUCCESS',
+            response.message || 'You have successfully logged in!',
+            { nzDuration: 5000 }
+          );
+          
           if (StorageService.isAdminLoggedIn()) {
             this.route.navigateByUrl('admin/dashboard');
           } else if (StorageService.isCustomerLoggedIn()) {
@@ -51,22 +77,42 @@ export class LoginComponent {
             this.notification.error('ERROR', 'Invalid user role', { nzDuration: 5000 });
             return;
           }
+          
+          this.loginForm.reset();
+          console.log('Login successful', response);
         } else {
-          this.notification.error('ERROR', 'Invalid user credentials', { nzDuration: 5000 });
-          return;
+          this.notification.error('ERROR', 'Invalid response from server', { nzDuration: 5000 });
         }
-        this.notification.success(
-          'SUCCESS',
-          'You have successfully logged in!',
-          { nzDuration: 5000 }
-        );
-        this.loginForm.reset();
-        console.log('Login successful', response);
       },
       error: (error) => {
-        const errorMessage = error.error?.message;
-        this.notification.error('ERROR', errorMessage, { nzDuration: 5000 });
+        this.isSpinning = false;
         console.error('Login failed', error);
+        
+        let errorTitle = 'Login Error';
+        let errorMessage = 'Login failed. Please try again.';
+        
+        if (error.error && error.error.type) {
+          switch (error.error.type) {
+            case 'login_validation':
+              errorTitle = 'Login Validation Error';
+              break;
+            case 'authentication':
+              errorTitle = 'Authentication Error';
+              break;
+            default:
+              errorTitle = 'Login Error';
+          }
+        }
+        
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message;
+        } else if (error.error && typeof error.error === 'string') {
+          errorMessage = error.error;
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+        
+        this.notification.error(errorTitle, errorMessage, { nzDuration: 5000 });
       },
     });
   }

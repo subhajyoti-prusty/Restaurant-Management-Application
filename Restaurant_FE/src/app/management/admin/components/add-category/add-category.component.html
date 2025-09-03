@@ -3,35 +3,52 @@
         <div nz-row class="imgDiv">
             <h2 style="margin-left: 200px;">Add Category</h2>
         </div>
-        <form nz-form>
+        <form nz-form [formGroup]="categoryForm">
             <div nz-row>
                 <div nz-col [nzMd]="24" [nzSm]="24" [nzXs]="24">
                     <div class="profile-badge">
-                        <label for="upload_profile_image" class="upload-label">
-                            <img class="profile" alt="profile" />
+                        <label for="upload_profile_image" class="upload-label" *ngIf="selectedFile">
+                            <img class="profile" alt="profile" [src]="imagePreview" />
                         </label>
                         <input type="file" nz-button nzType="primary" id="upload_profile_image"
-                            accept="image/x-png,image/gif,image/jpeg">
+                            accept="image/x-png,image/gif,image/jpeg,image/jpg" (change)="onFileSelected($event)">
                         <button nz-button nzShape="circle">
                         </button>
+                        <div class="file-info" style="margin-top: 10px; text-align: center; color: #666; font-size: 12px;">
+                            <i nz-icon nzType="info-circle" nzTheme="outline"></i>
+                            Maximum file size: 1MB | Supported formats: JPEG, PNG, GIF
+                        </div>
+                        <div *ngIf="selectedFile" class="selected-file-info" style="margin-top: 5px; text-align: center; color: #52c41a; font-size: 12px;">
+                            Selected: {{selectedFile.name}} ({{fileValidationService.formatFileSize(selectedFile.size)}})
+                        </div>
                     </div>
                 </div>
                 <div nz-col nzSpan="24" style="margin-top: 20px;">
                     <nz-form-item>
                         <nz-form-control nzHasFeedback [nzXs]="24" nzErrorTip="This Input Is Required!">
-                            <input nz-input placeholder="Name" />
+                            <input nz-input placeholder="Name" formControlName="name" maxlength="100" />
+                            <div style="margin-top: 5px; text-align: right; color: #666; font-size: 12px;" 
+                                 *ngIf="categoryForm.get('name')?.value">
+                                {{categoryForm.get('name')?.value?.length || 0}}/{{fileValidationService.getMaxNameLength()}} characters
+                            </div>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
                 <div nz-col nzSpan="24">
                     <nz-form-item>
                         <nz-form-control nzHasFeedback [nzXs]="24" nzErrorTip="This Input Is Required!">
-                            <textarea rows="1" nz-input placeholder="Description"></textarea>
+                            <textarea rows="3" nz-input placeholder="Description" maxlength="500"
+                                formControlName="description"></textarea>
+                            <div style="margin-top: 5px; text-align: right; color: #666; font-size: 12px;"
+                                 *ngIf="categoryForm.get('description')?.value">
+                                {{categoryForm.get('description')?.value?.length || 0}}/{{fileValidationService.getMaxDescriptionLength()}} characters
+                            </div>
                         </nz-form-control>
                     </nz-form-item>
                 </div>
             </div>
-            <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Add</button>
+            <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'"
+                (click)="saveData()">Add</button>
         </form>
     </div>
 </div>

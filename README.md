@@ -11,11 +11,13 @@
 ## ⚠️ Important Notes
 
 - **Security**: This is a development version. Database credentials are currently hard-coded and should be moved to environment variables before production.
-- **Features**: Many features mentioned in the initial planning are not yet implemented.
+- **Features**: Category management system is fully implemented with both backend and frontend components. Menu item management and order processing features are planned for upcoming phases.
 - **Testing**: Unit and integration tests need to be expanded.
 - **Documentation**: API documentation with Swagger/OpenAPI needs to be added.
 
-A restaurant management system built with Spring Boot and Angular. This project is currently in early development and focuses on establishing the core authentication and authorization foundation for future restaurant management features.
+A comprehensive restaurant management system built with Spring Boot and Angular. This project features a complete authentication system and a fully functional category management module, providing a solid foundation for restaurant operations including menu management, order processing, and inventory tracking.
+
+**Current Status**: Core authentication and category management features are complete and production-ready. The system demonstrates best practices in full-stack development with secure APIs, responsive UI, and comprehensive validation.
 
 ## 🌟 Current Features
 
@@ -25,23 +27,57 @@ A restaurant management system built with Spring Boot and Angular. This project 
   - User registration and login functionality
   - Role-based access control (Admin, Customer)
   - Password encryption and security
+  - JWT authorization for admin endpoints
 
-### 🚧 In Development
+- **Admin Dashboard Foundation**
+  - Admin routing and module structure
+  - Dashboard component framework
+  - Role-based navigation and access control
+
+- **Complete Category Management System**
+  - Category entity with name, description, and image support
+  - POST API endpoint for creating categories (`/api/admin/category`)
+  - Admin service layer for category operations
+  - Database integration with MySQL
+  - **Frontend Category Management UI**
+    - Fully functional Add Category component
+    - Reactive form validation with real-time feedback
+    - Image upload with preview functionality
+    - File validation service for security
+    - Input validation for name and description fields
+    - Error handling and user notifications
+    - Integration with backend category APIs
+
 - **Responsive UI Framework**
   - Angular-based frontend with routing
   - PrimeNG and Ng-Zorro component integration
   - Admin and Customer module structure
+  - Shared modules for consistent UI components
 
-### 📋 Planned Features
-- **Menu Management**
+### 🚧 In Development
+- **Category Management Enhancements**
+  - View all categories functionality
+  - Category editing and deletion capabilities
+  - Category search and filtering
+
+- **Menu Item Management System**
+  - Menu item entity and backend APIs
   - Create, update, and delete menu items
   - Categorize menu items
   - Set pricing and availability
+  - Menu item UI components
 
-- **Order Processing**
+### 📋 Planned Features
+- **Order Processing System**
   - Create and manage customer orders
   - Track order status in real-time
   - Generate bills and receipts
+  - Order history and tracking
+
+- **Enhanced Dashboard Features**
+  - Admin analytics dashboard
+  - Customer order dashboard
+  - Real-time statistics and charts
 
 - **Inventory Management**
   - Track ingredient usage
@@ -60,26 +96,47 @@ A restaurant management system built with Spring Boot and Angular. This project 
 - **Java** 21
 - **MySQL** Database
 - **Spring Security** with JWT authentication
+- **Spring Data JPA** for database operations
 - **Maven** for dependency management
+- **Lombok** for reducing boilerplate code
+- **JSON Web Token (JWT)** for secure authentication
+- **Apache Commons Lang** for utilities
 - **RESTful API** architecture
+- **Custom Exception Handling** for better error management
+- **File Upload Support** with validation
+- **CORS Configuration** for frontend integration
 
 ### Frontend
 - **Angular** 19.2
 - **PrimeNG** 19.1.3 - UI component library
 - **Ng-Zorro** 19.3.1 - Ant Design for Angular
 - **RxJS** - Reactive programming
+- **TypeScript** - Type-safe JavaScript
 - **Chart.js** 4.5.0 - For future data visualization
 - **Bootstrap** 5.3.7 - For responsive design
 - **JWT Decode** - Token handling
-- **Sass** - Styling
+- **Sass** - Advanced styling
+- **NgX Cookie Service** - Cookie management
+- **NgX Editor** - Rich text editing capabilities
+- **NgX File Drop** - File upload functionality
+- **Reactive Forms** - Angular reactive forms for validation
 
 ## 📋 Prerequisites
 
-- JDK 21+
-- Node.js 18+
-- npm 10+
-- MySQL 8+
-- Maven 3.8+
+- **JDK** 21+
+- **Node.js** 18+
+- **npm** 10+
+- **MySQL** 8+
+- **Maven** 3.8+
+- **Git** for version control
+
+## 💻 Development Environment
+
+This project is optimized for development with:
+- **VS Code** with Angular and Java extensions
+- **IntelliJ IDEA** for backend development
+- **MySQL Workbench** for database management
+- **Postman** for API testing (collection available on request)
 
 ## ⚙️ Installation & Setup
 
@@ -127,9 +184,14 @@ A restaurant management system built with Spring Boot and Angular. This project 
 2. Register a new account through the signup page or login with existing credentials
 3. Currently available features:
    - User registration and authentication
-   - Basic routing to admin and customer dashboards (UI structure only)
+   - Role-based routing (Admin/Customer dashboards)
+   - Admin: Complete category management system
+     - Add new categories with images
+     - Form validation and error handling
+     - Real-time input validation
+   - Backend support for comprehensive category operations
 
-**Note**: This is an early development version. Most management features are not yet implemented.
+**Note**: This is an active development version. Menu item management, order processing, and additional category features (view, edit, delete) are currently in development.
 
 ## 📊 API Documentation
 
@@ -138,6 +200,19 @@ API documentation will be available once Swagger/OpenAPI is integrated. Currentl
 ### Authentication Endpoints
 - `POST /api/auth/signup` - User registration
 - `POST /api/auth/login` - User authentication
+
+### Admin Endpoints
+- `POST /api/admin/category` - Create new food category (JWT required)
+  - Supports multipart file upload for category images
+  - Input validation for name and description
+  - File type and size validation
+  - Returns created category with ID and image data
+
+### File Upload Requirements
+- **Supported formats**: JPG, JPEG, PNG, GIF
+- **Maximum file size**: 5MB per image
+- **Image processing**: Automatic compression and storage
+- **Validation**: Real-time client and server-side validation
 
 *More endpoints will be documented as features are implemented.*
 
@@ -152,13 +227,13 @@ Restaurant-Management-Application/
 │   │   │   ├── java/
 │   │   │   │   └── com/my/restaurant/
 │   │   │   │       ├── config/     # Security & CORS configuration
-│   │   │   │       ├── controller/ # REST endpoints (Auth only)
+│   │   │   │       ├── controller/ # REST endpoints (Auth & Admin)
 │   │   │   │       ├── dto/        # Data Transfer Objects
-│   │   │   │       ├── entity/     # JPA entities (User)
+│   │   │   │       ├── entity/     # JPA entities (User, Category)
 │   │   │   │       ├── enums/      # Enum types (UserRole)
 │   │   │   │       ├── exception/  # Exception handling
-│   │   │   │       ├── repository/ # Database access (UserRepo)
-│   │   │   │       ├── services/   # Business logic (Auth services)
+│   │   │   │       ├── repository/ # Database access (User & Category repos)
+│   │   │   │       ├── services/   # Business logic (Auth & Admin services)
 │   │   │   │       └── util/       # Utility classes (JWT)
 │   │   │   └── resources/
 │   │   │       └── application.properties # App configuration
@@ -169,28 +244,57 @@ Restaurant-Management-Application/
     ├── src/
     │   ├── app/
     │   │   ├── auth/              # Authentication components (Login/Signup)
-    │   │   ├── management/        # Admin & Customer modules (Structure only)
-    │   │   ├── services/          # API services (Auth & Storage)
+    │   │   ├── management/        # Admin & Customer modules
+    │   │   │   ├── admin/         # Admin dashboard & category management
+    │   │   │   │   ├── components/
+    │   │   │   │   │   ├── add-category/  # Complete category creation UI
+    │   │   │   │   │   └── dashboard/     # Admin dashboard (basic)
+    │   │   │   │   └── services/  # Admin-specific services
+    │   │   │   └── customer/      # Customer dashboard (structure)
+    │   │   ├── services/          # API services (Auth, Storage, Validation)
     │   │   └── shared/            # Shared modules (NgZorro, PrimeNG)
     │   └── assets/                # Static assets
     ├── angular.json               # Angular configuration
     └── package.json               # NPM dependencies
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+1. **Port conflicts**: Backend runs on 8081, Frontend on 4200
+2. **Database connection**: Ensure MySQL is running and credentials are correct
+3. **CORS issues**: Check CORS configuration in backend if API calls fail
+4. **JWT token expiration**: Tokens expire after 24 hours, re-login required
+
+### Getting Help
+
+- Check the [ENVIRONMENT.md](ENVIRONMENT.md) file for detailed setup instructions
+- Ensure all prerequisites are installed with correct versions
+- For database issues, verify MySQL service is running
+- For frontend issues, clear npm cache: `npm cache clean --force`
 ```
 
 ## 🚧 Development Status & Roadmap
 
-### Phase 1: Foundation (Current) ✅
+### Phase 1: Foundation ✅
 - [x] Project structure setup
 - [x] Spring Boot backend with MySQL integration
 - [x] Angular frontend with routing
 - [x] JWT-based authentication system
 - [x] User registration and login
 - [x] Basic security configuration
+- [x] Role-based access control
+- [x] Category entity and backend API
+- [x] Admin controller with JWT authorization
 
-### Phase 2: Core Features (Next)
-- [ ] Menu management system
+### Phase 2: Core Features (In Progress)
+- [x] Complete category management system (Frontend & Backend)
+- [x] Category form validation and file upload
+- [x] Category management UI with reactive forms
+- [ ] Category listing, editing, and deletion features
+- [ ] Menu item management system
 - [ ] Order processing workflow
-- [ ] Admin dashboard implementation
+- [ ] Enhanced admin dashboard with analytics
 - [ ] Customer dashboard implementation
 - [ ] API documentation with Swagger
 
@@ -200,6 +304,15 @@ Restaurant-Management-Application/
 - [ ] Real-time notifications
 - [ ] Payment integration
 - [ ] Mobile optimization
+
+## Recent Updates (Development Branch)
+- **Complete Category Management**: Fully implemented category creation with frontend and backend integration
+- **Advanced Form Validation**: Real-time input validation with custom validation service
+- **File Upload System**: Secure image upload with preview and validation
+- **Error Handling**: Comprehensive error handling with user-friendly notifications
+- **JWT Authorization for Admin**: Implemented secure admin endpoints
+- **Role-based Navigation**: Dynamic navigation based on user roles
+- **UI Component Integration**: Seamless integration of PrimeNG and Ng-Zorro components
 
 ## 🤝 Contributing
 
