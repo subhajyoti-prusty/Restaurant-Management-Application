@@ -26,12 +26,15 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
 
-    private String Password;
+    private String password;
 
     private UserRole userRole;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (userRole == null) {
+            return List.of();
+        }
         return List.of(new SimpleGrantedAuthority(userRole.name()));
     }
 
@@ -53,6 +56,11 @@ public class User implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override

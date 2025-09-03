@@ -6,4 +6,102 @@
 // Override less variables to here
 // View all variables: https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/components/style/themes/default.less
 
-// @primary-color: #1890ff;
+// Restaurant Management App Custom Theme Variables
+// Primary brand colors
+@primary-color: #f48023; // Orange color matching app.component.scss
+@info-color: #003973; // Dark blue for headers/navigation
+@success-color: #52c41a; // Green for success states
+@warning-color: #faad14; // Yellow for warnings
+@error-color: #f5222d; // Red for errors
+
+// Secondary colors
+@text-color: #000000d9; // Main text color
+@text-color-secondary: #00000073; // Secondary text
+@text-color-inverse: #ffffff; // White text for dark backgrounds
+@heading-color: #000000d9; // Heading text color
+@text-color-dark: #ffffffd9; // Text color for dark mode
+
+// Layout colors
+@layout-body-background: #f0f2f5; // Main background
+@layout-header-background: #003973; // Header background (matching current design)
+@layout-footer-background: #f0f2f5; // Footer background
+@layout-sider-background: #001529; // Sidebar background
+
+// Component specific colors
+@background-color-light: #fafafa; // Light background
+@background-color-base: #f5f5f5; // Base background
+@border-color-base: #d9d9d9; // Base border color
+@border-color-split: #f0f0f0; // Split border color
+
+// Button customizations
+@btn-primary-bg: @primary-color;
+@btn-primary-color: #fff;
+@btn-default-color: @text-color;
+@btn-default-bg: #ffffff;
+@btn-default-border: @border-color-base;
+
+// Menu customizations for restaurant navigation
+@menu-bg: @layout-header-background;
+@menu-item-color: @text-color-inverse;
+@menu-highlight-color: @primary-color;
+@menu-item-active-bg: @primary-color;
+@menu-item-selected-bg: @primary-color;
+
+// Form components
+@input-bg: #ffffff;
+@input-border-color: @border-color-base;
+@input-hover-border-color: @primary-color;
+@input-focus-border-color: @primary-color;
+
+// Table customizations for menu/order displays
+@table-header-bg: #fafafa;
+@table-header-color: @heading-color;
+@table-row-hover-bg: #f5f5f5;
+@table-selected-row-bg: #e6f7ff;
+
+// Card components for menu items/categories
+@card-radius: 8px;
+@card-head-color: @heading-color;
+@card-head-background: transparent;
+@card-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+
+// Modal and overlay components
+@modal-header-bg: #ffffff;
+@modal-content-bg: #ffffff;
+@modal-heading-color: @heading-color;
+
+// Typography
+@font-size-base: 14px;
+@font-size-lg: 16px;
+@font-size-sm: 12px;
+@line-height-base: 1.5715;
+
+// Spacing and sizing
+@padding-lg: 24px;
+@padding-md: 16px;
+@padding-sm: 12px;
+@padding-xs: 8px;
+
+// Border radius for consistent design
+@border-radius-base: 6px;
+@border-radius-sm: 4px;
+
+// Animation and transitions
+@animation-duration-slow: 0.3s;
+@animation-duration-base: 0.2s;
+@animation-duration-fast: 0.1s;
+
+// Restaurant-specific customizations
+// Custom variables for restaurant management features
+@restaurant-accent-color: #ffd700; // Gold accent for special items
+@restaurant-secondary-bg: #fff7e6; // Light orange background
+@restaurant-table-reserved: #ffec3d; // Yellow for reserved tables
+@restaurant-table-occupied: #ff7875; // Light red for occupied tables  
+@restaurant-table-available: #95de64; // Light green for available tables
+
+// Order status colors
+@order-pending: @warning-color;
+@order-preparing: #722ed1; // Purple
+@order-ready: @success-color;
+@order-delivered: #13c2c2; // Cyan
+@order-cancelled: @error-color;

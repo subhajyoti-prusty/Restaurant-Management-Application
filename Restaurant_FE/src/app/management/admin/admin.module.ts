@@ -6,6 +6,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AddCategoryComponent } from './components/add-category/add-category.component';
 import { NgZorroModule } from '../../Shared/NgZorroModule';
 import { PrimeNgModule } from '../../Shared/PrimeNgModule';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -17,7 +19,10 @@ import { PrimeNgModule } from '../../Shared/PrimeNgModule';
     CommonModule,
     AdminRoutingModule,
     NgZorroModule,
-    PrimeNgModule
+    PrimeNgModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ]
 })
 export class AdminModule { }
