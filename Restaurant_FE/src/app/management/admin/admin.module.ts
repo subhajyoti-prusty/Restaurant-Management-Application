@@ -8,12 +8,14 @@ import { NgZorroModule } from '../../Shared/NgZorroModule';
 import { PrimeNgModule } from '../../Shared/PrimeNgModule';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AddProductComponent } from './components/add-product/add-product.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    AddCategoryComponent
+    AddCategoryComponent,
+    AddProductComponent
   ],
   imports: [
     CommonModule,
