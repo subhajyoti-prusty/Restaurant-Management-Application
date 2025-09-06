@@ -25,5 +25,6 @@ export interface CategoryDto {
   id: number;
   name: string;
   description: string;
-  img: string;
+  img?: string;
+  returnedImg?: any; // byte array from backend
 }
