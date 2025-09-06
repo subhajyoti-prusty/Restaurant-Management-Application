@@ -9,4 +9,7 @@ public interface AdminService {
     CategoryDto postCategory(CategoryDto categoryDto) throws IOException;
 
     List<CategoryDto> getAllCategories();
+
+    List<CategoryDto> getCategoriesByTitle(String title);
+
 }

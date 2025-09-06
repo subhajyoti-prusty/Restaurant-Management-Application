@@ -35,4 +35,13 @@ public class AdminController {
         }
         return ResponseUtil.success(categoryDtoList, "Categories retrieved successfully");
     }
+
+    @GetMapping("/searchCategories/{title}")
+    public ResponseEntity<ApiResponse<List<CategoryDto>>> getCategoriesByTitle(@PathVariable String title) {
+        List<CategoryDto> categoryDtoList = adminService.getCategoriesByTitle(title);
+        if (categoryDtoList == null) {
+            return ResponseUtil.notFound("No categories found");
+        }
+        return ResponseUtil.success(categoryDtoList, "Categories retrieved successfully");
+    }
 }

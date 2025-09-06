@@ -63,6 +63,11 @@ public class AdminServiceImplementation implements AdminService {
         return categoryRepo.findAll().stream().map(Category::getCategoryDto).collect(Collectors.toList());
     }
 
+    @Override
+    public List<CategoryDto> getCategoriesByTitle(String title) {
+        return categoryRepo.findAllByNameContaining(title).stream().map(Category::getCategoryDto).collect(Collectors.toList());
+    }
+
     private void validateCategoryInput(CategoryDto categoryDto) {
         // Check if name is null or empty
         if (categoryDto.getName() == null || categoryDto.getName().trim().isEmpty()) {

@@ -31,6 +31,14 @@ export class AdminService {
     )
   }
 
+  searchCategoriesByTitle(title: string): Observable<ApiResponse<CategoryDto[]>> {
+    return this.http.get<ApiResponse<CategoryDto[]>>(`${BASE_URL}admin/searchCategories/${title}`,
+      {
+        headers: this.createAuthorizationHeader()
+      }
+    )
+  }
+
   createAuthorizationHeader(): HttpHeaders {
     let headers = new HttpHeaders();
     return headers.set(

@@ -17,7 +17,7 @@
 
 A comprehensive restaurant management system built with Spring Boot and Angular. This project features a complete authentication system and a fully functional category management module, providing a solid foundation for restaurant operations including menu management, order processing, and inventory tracking.
 
-**Current Status**: Core authentication and category management features are complete and production-ready. The system demonstrates best practices in full-stack development with secure APIs, responsive UI, and comprehensive validation.
+**Current Status**: Core authentication and category management features are complete and production-ready. A standardized API response system has been implemented for consistent client-server communication. The system demonstrates best practices in full-stack development with secure APIs, responsive UI, comprehensive validation, and robust error handling.
 
 ## 🌟 Current Features
 
@@ -37,6 +37,7 @@ A comprehensive restaurant management system built with Spring Boot and Angular.
 - **Complete Category Management System**
   - Category entity with name, description, and image support
   - POST API endpoint for creating categories (`/api/admin/category`)
+  - GET API endpoint for retrieving all categories (`/api/admin/getCategories`)
   - Admin service layer for category operations
   - Database integration with MySQL
   - **Frontend Category Management UI**
@@ -48,24 +49,45 @@ A comprehensive restaurant management system built with Spring Boot and Angular.
     - Error handling and user notifications
     - Integration with backend category APIs
 
+- **Standardized API Response System**
+  - Generic `ApiResponse<T>` wrapper for consistent response format
+  - Standardized response structure with status codes, messages, and data
+  - ResponseUtil utility for creating consistent API responses
+  - Comprehensive error handling with detailed status messages
+  - Example controller demonstrating best practices
+
+- **Menu Item Management Foundation**
+  - Add Product component structure (Frontend)
+  - Product routing and navigation setup
+  - Integration with category service for product categorization
+  - Prepared infrastructure for menu item CRUD operations
+
+- **Enhanced Error Handling & Validation**
+  - Custom exception classes for specific error scenarios
+  - Global exception handler for centralized error management
+  - File type and size validation
+  - Real-time form validation with custom validators
+  - Comprehensive error messages and user notifications
+
 - **Responsive UI Framework**
   - Angular-based frontend with routing
   - PrimeNG and Ng-Zorro component integration
   - Admin and Customer module structure
   - Shared modules for consistent UI components
+  - Comprehensive UI component library integration
 
 ### 🚧 In Development
 - **Category Management Enhancements**
-  - View all categories functionality
+  - View all categories functionality (Backend complete, Frontend in progress)
   - Category editing and deletion capabilities
   - Category search and filtering
 
 - **Menu Item Management System**
   - Menu item entity and backend APIs
   - Create, update, and delete menu items
-  - Categorize menu items
+  - Categorize menu items with existing categories
   - Set pricing and availability
-  - Menu item UI components
+  - Menu item UI components (Foundation complete)
 
 ### 📋 Planned Features
 - **Order Processing System**
@@ -187,11 +209,14 @@ This project is optimized for development with:
    - Role-based routing (Admin/Customer dashboards)
    - Admin: Complete category management system
      - Add new categories with images
+     - Retrieve all categories (backend ready)
      - Form validation and error handling
      - Real-time input validation
+     - Standardized API responses
    - Backend support for comprehensive category operations
+   - Standardized error handling and API responses
 
-**Note**: This is an active development version. Menu item management, order processing, and additional category features (view, edit, delete) are currently in development.
+**Note**: This is an active development version. Category listing UI, menu item management, order processing, and additional category features (edit, delete) are currently in development.
 
 ## 📊 API Documentation
 
@@ -207,6 +232,28 @@ API documentation will be available once Swagger/OpenAPI is integrated. Currentl
   - Input validation for name and description
   - File type and size validation
   - Returns created category with ID and image data
+- `GET /api/admin/getCategories` - Retrieve all categories (JWT required)
+  - Returns standardized ApiResponse with category list
+  - Includes category ID, name, description, and image data
+
+### Standardized API Response Format
+All endpoints now return responses in the standardized `ApiResponse<T>` format:
+```json
+{
+  "statusCode": 200,
+  "status": "SUCCESS",
+  "message": "Operation completed successfully",
+  "data": { ... },
+  "timestamp": "2025-09-06T10:30:00",
+  "errors": null
+}
+```
+
+### Example Endpoints (Development/Testing)
+- `GET /api/example/success-with-data` - Example successful response with data
+- `GET /api/example/success-with-list` - Example successful response with list
+- `POST /api/example/create` - Example resource creation
+- `GET /api/example/validation-error` - Example validation error response
 
 ### File Upload Requirements
 - **Supported formats**: JPG, JPEG, PNG, GIF
@@ -227,14 +274,14 @@ Restaurant-Management-Application/
 │   │   │   ├── java/
 │   │   │   │   └── com/my/restaurant/
 │   │   │   │       ├── config/     # Security & CORS configuration
-│   │   │   │       ├── controller/ # REST endpoints (Auth & Admin)
-│   │   │   │       ├── dto/        # Data Transfer Objects
+│   │   │   │       ├── controller/ # REST endpoints (Auth, Admin & Example)
+│   │   │   │       ├── dto/        # Data Transfer Objects (ApiResponse, CategoryDto, UserDto)
 │   │   │   │       ├── entity/     # JPA entities (User, Category)
 │   │   │   │       ├── enums/      # Enum types (UserRole)
-│   │   │   │       ├── exception/  # Exception handling
+│   │   │   │       ├── exception/  # Exception handling & Global exception handler
 │   │   │   │       ├── repository/ # Database access (User & Category repos)
 │   │   │   │       ├── services/   # Business logic (Auth & Admin services)
-│   │   │   │       └── util/       # Utility classes (JWT)
+│   │   │   │       └── util/       # Utility classes (JWT, ResponseUtil)
 │   │   │   └── resources/
 │   │   │       └── application.properties # App configuration
 │   │   └── test/                  # Test cases
@@ -248,11 +295,12 @@ Restaurant-Management-Application/
     │   │   │   ├── admin/         # Admin dashboard & category management
     │   │   │   │   ├── components/
     │   │   │   │   │   ├── add-category/  # Complete category creation UI
+    │   │   │   │   │   ├── add-product/   # Menu item management foundation
     │   │   │   │   │   └── dashboard/     # Admin dashboard (basic)
-    │   │   │   │   └── services/  # Admin-specific services
+    │   │   │   │   └── services/  # Admin-specific services (with category APIs)
     │   │   │   └── customer/      # Customer dashboard (structure)
-    │   │   ├── services/          # API services (Auth, Storage, Validation)
-    │   │   └── shared/            # Shared modules (NgZorro, PrimeNG)
+    │   │   ├── services/          # API services (Auth, Storage, File Validation)
+    │   │   └── shared/            # Shared modules (NgZorro, PrimeNG) & Interfaces
     │   └── assets/                # Static assets
     ├── angular.json               # Angular configuration
     └── package.json               # NPM dependencies
@@ -291,8 +339,12 @@ Restaurant-Management-Application/
 - [x] Complete category management system (Frontend & Backend)
 - [x] Category form validation and file upload
 - [x] Category management UI with reactive forms
-- [ ] Category listing, editing, and deletion features
-- [ ] Menu item management system
+- [x] Standardized API response system with ApiResponse wrapper
+- [x] Enhanced error handling and custom exceptions
+- [x] Category retrieval API endpoint
+- [x] Menu item management foundation (Frontend structure)
+- [ ] Category listing, editing, and deletion UI components
+- [ ] Complete menu item management system
 - [ ] Order processing workflow
 - [ ] Enhanced admin dashboard with analytics
 - [ ] Customer dashboard implementation
@@ -306,13 +358,14 @@ Restaurant-Management-Application/
 - [ ] Mobile optimization
 
 ## Recent Updates (Development Branch)
-- **Complete Category Management**: Fully implemented category creation with frontend and backend integration
-- **Advanced Form Validation**: Real-time input validation with custom validation service
-- **File Upload System**: Secure image upload with preview and validation
-- **Error Handling**: Comprehensive error handling with user-friendly notifications
-- **JWT Authorization for Admin**: Implemented secure admin endpoints
-- **Role-based Navigation**: Dynamic navigation based on user roles
-- **UI Component Integration**: Seamless integration of PrimeNG and Ng-Zorro components
+- **Standardized API Response System**: Implemented generic `ApiResponse<T>` wrapper with ResponseUtil for consistent API responses
+- **Enhanced Category Management**: Added GET endpoint for retrieving all categories with standardized response format
+- **Menu Item Management Foundation**: Created Add Product component structure and routing for future menu item features
+- **Advanced Error Handling**: Comprehensive exception handling with custom exception classes and global exception handler
+- **Example Controller**: Added development/testing endpoints demonstrating API response best practices
+- **File Upload & Validation Enhancements**: Improved file validation with detailed error handling
+- **UI Component Integration**: Enhanced PrimeNG and Ng-Zorro component integration for better user experience
+- **Type Safety Improvements**: Added comprehensive TypeScript interfaces for API responses and data models
 
 ## 🤝 Contributing
 
