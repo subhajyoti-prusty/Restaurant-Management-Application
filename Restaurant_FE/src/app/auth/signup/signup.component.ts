@@ -80,13 +80,23 @@ export class SignupComponent {
     this.service.signup(this.signupForm.value).subscribe({
       next: (response) => {
         this.isSpinning = false;
-        this.notification.success(
-          'SUCCESS',
-          response.message || 'You have successfully signed up!',
-          { nzDuration: 5000 }
-        );
-        this.signupForm.reset();
-        console.log('Signup successful', response);
+        
+        // Handle new ApiResponse structure
+        if (response.status === 'SUCCESS') {
+          this.notification.success(
+            'SUCCESS',
+            response.message || 'You have successfully signed up!',
+            { nzDuration: 5000 }
+          );
+          this.signupForm.reset();
+          console.log('Signup successful', response);
+        } else {
+          this.notification.error(
+            'ERROR',
+            response.message || 'Signup failed',
+            { nzDuration: 5000 }
+          );
+        }
       },
       error: (error) => {
         this.isSpinning = false;
@@ -95,35 +105,30 @@ export class SignupComponent {
         let errorTitle = 'Signup Error';
         let errorMessage = 'Signup failed. Please try again.';
         
-        if (error.error && error.error.type) {
-          switch (error.error.type) {
-            case 'signup_validation':
-              errorTitle = 'Signup Validation Error';
-              break;
-            case 'validation':
-              errorTitle = 'Form Validation Error';
-              break;
-            default:
-              errorTitle = 'Signup Error';
+        // Handle new ApiResponse error structure
+        if (error.error) {
+          const errorResponse = error.error;
+          
+          if (errorResponse.status) {
+            switch (errorResponse.status) {
+              case 'VALIDATION_ERROR':
+                errorTitle = 'Validation Error';
+                break;
+              case 'ERROR':
+                errorTitle = 'Signup Error';
+                break;
+              default:
+                errorTitle = 'Signup Error';
+            }
           }
-        }
-        
-        if (error.error && error.error.message) {
-          errorMessage = error.error.message;
-        } else if (error.error && typeof error.error === 'string') {
-          errorMessage = error.error;
+          
+          if (errorResponse.message) {
+            errorMessage = errorResponse.message;
+          } else if (errorResponse.errors && errorResponse.errors.length > 0) {
+            errorMessage = errorResponse.errors.join('\n');
+          }
         } else if (error.message) {
           errorMessage = error.message;
-        }
-        
-        // Handle field-specific errors if available
-        if (error.error && error.error.fieldErrors) {
-          const fieldErrors = error.error.fieldErrors;
-          let fieldErrorMessage = 'Please check the following fields:\n';
-          Object.keys(fieldErrors).forEach(field => {
-            fieldErrorMessage += `• ${field}: ${fieldErrors[field]}\n`;
-          });
-          errorMessage = fieldErrorMessage;
         }
         
         this.notification.error(errorTitle, errorMessage, { nzDuration: 5000 });

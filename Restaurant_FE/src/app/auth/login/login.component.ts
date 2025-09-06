@@ -51,37 +51,41 @@ export class LoginComponent {
       next: (response) => {
         this.isSpinning = false;
         
-        // Handle the new response structure
-        const authData = response.authentication || response;
-        
-        if (authData.userId != null && authData.jwt) {
-          const user = {
-            userId: authData.userId,
-            userRole: authData.userRole,
-          }
-          console.log('User data:', user);
-          StorageService.saveToken(authData.jwt);
-          StorageService.saveUser(user);
+        // Handle the new ApiResponse structure
+        if (response.status === 'SUCCESS' && response.data) {
+          const authData = response.data;
           
-          this.notification.success(
-            'SUCCESS',
-            response.message || 'You have successfully logged in!',
-            { nzDuration: 5000 }
-          );
-          
-          if (StorageService.isAdminLoggedIn()) {
-            this.route.navigateByUrl('admin/dashboard');
-          } else if (StorageService.isCustomerLoggedIn()) {
-            this.route.navigateByUrl('customer/dashboard');
+          if (authData.userId != null && authData.jwt) {
+            const user = {
+              userId: authData.userId,
+              userRole: authData.userRole,
+            }
+            console.log('User data:', user);
+            StorageService.saveToken(authData.jwt);
+            StorageService.saveUser(user);
+            
+            this.notification.success(
+              'SUCCESS',
+              response.message || 'You have successfully logged in!',
+              { nzDuration: 5000 }
+            );
+            
+            if (StorageService.isAdminLoggedIn()) {
+              this.route.navigateByUrl('admin/dashboard');
+            } else if (StorageService.isCustomerLoggedIn()) {
+              this.route.navigateByUrl('customer/dashboard');
+            } else {
+              this.notification.error('ERROR', 'Invalid user role', { nzDuration: 5000 });
+              return;
+            }
+            
+            this.loginForm.reset();
+            console.log('Login successful', response);
           } else {
-            this.notification.error('ERROR', 'Invalid user role', { nzDuration: 5000 });
-            return;
+            this.notification.error('ERROR', 'Invalid response from server', { nzDuration: 5000 });
           }
-          
-          this.loginForm.reset();
-          console.log('Login successful', response);
         } else {
-          this.notification.error('ERROR', 'Invalid response from server', { nzDuration: 5000 });
+          this.notification.error('ERROR', response.message || 'Login failed', { nzDuration: 5000 });
         }
       },
       error: (error) => {
@@ -91,23 +95,31 @@ export class LoginComponent {
         let errorTitle = 'Login Error';
         let errorMessage = 'Login failed. Please try again.';
         
-        if (error.error && error.error.type) {
-          switch (error.error.type) {
-            case 'login_validation':
-              errorTitle = 'Login Validation Error';
-              break;
-            case 'authentication':
-              errorTitle = 'Authentication Error';
-              break;
-            default:
-              errorTitle = 'Login Error';
+        // Handle new ApiResponse error structure
+        if (error.error) {
+          const errorResponse = error.error;
+          
+          if (errorResponse.status) {
+            switch (errorResponse.status) {
+              case 'UNAUTHORIZED':
+                errorTitle = 'Authentication Error';
+                break;
+              case 'VALIDATION_ERROR':
+                errorTitle = 'Validation Error';
+                break;
+              case 'ERROR':
+                errorTitle = 'Login Error';
+                break;
+              default:
+                errorTitle = 'Login Error';
+            }
           }
-        }
-        
-        if (error.error && error.error.message) {
-          errorMessage = error.error.message;
-        } else if (error.error && typeof error.error === 'string') {
-          errorMessage = error.error;
+          
+          if (errorResponse.message) {
+            errorMessage = errorResponse.message;
+          } else if (errorResponse.errors && errorResponse.errors.length > 0) {
+            errorMessage = errorResponse.errors.join(', ');
+          }
         } else if (error.message) {
           errorMessage = error.message;
         }

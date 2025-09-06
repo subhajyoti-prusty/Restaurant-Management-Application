@@ -83,17 +83,24 @@ export class AddCategoryComponent {
       
       this.adminService.postCategory(formData).subscribe({
         next: (response) => {
-          this.notification.success('SUCCESS',
-            'Category added successfully!',
-            { nzDuration: 5000 });
-          // Reset form and file selection
-          this.categoryForm.reset();
-          this.selectedFile = null;
-          this.imagePreview = null;
-          // Clear file input
-          const fileInput = document.getElementById('upload_profile_image') as HTMLInputElement;
-          if (fileInput) {
-            fileInput.value = '';
+          // Handle new ApiResponse structure
+          if (response.status === 'SUCCESS') {
+            this.notification.success('SUCCESS',
+              response.message || 'Category added successfully!',
+              { nzDuration: 5000 });
+            // Reset form and file selection
+            this.categoryForm.reset();
+            this.selectedFile = null;
+            this.imagePreview = null;
+            // Clear file input
+            const fileInput = document.getElementById('upload_profile_image') as HTMLInputElement;
+            if (fileInput) {
+              fileInput.value = '';
+            }
+          } else {
+            this.notification.error('ERROR', 
+              response.message || 'Error adding category!',
+              { nzDuration: 5000 });
           }
         },
         error: (error) => {
@@ -101,31 +108,32 @@ export class AddCategoryComponent {
           let errorMessage = 'Error adding category!';
           let errorTitle = 'ERROR';
           
-          // Handle specific error messages from backend
-          if (error.error && error.error.type) {
-            switch (error.error.type) {
-              case 'file_validation':
-                errorTitle = 'File Validation Error';
-                break;
-              case 'input_validation':
-                errorTitle = 'Input Validation Error';
-                break;
-              case 'authentication':
-                errorTitle = 'Authentication Error';
-                // Don't show notification for auth errors as interceptor handles it
-                return;
-              case 'server_error':
-                errorTitle = 'Server Error';
-                break;
-              default:
-                errorTitle = 'ERROR';
+          // Handle new ApiResponse error structure
+          if (error.error) {
+            const errorResponse = error.error;
+            
+            if (errorResponse.status) {
+              switch (errorResponse.status) {
+                case 'VALIDATION_ERROR':
+                  errorTitle = 'Validation Error';
+                  break;
+                case 'UNAUTHORIZED':
+                  errorTitle = 'Authentication Error';
+                  // Don't show notification for auth errors as interceptor handles it
+                  return;
+                case 'ERROR':
+                  errorTitle = 'Error';
+                  break;
+                default:
+                  errorTitle = 'ERROR';
+              }
             }
-          }
-          
-          if (error.error && error.error.message) {
-            errorMessage = error.error.message;
-          } else if (error.error && typeof error.error === 'string') {
-            errorMessage = error.error;
+            
+            if (errorResponse.message) {
+              errorMessage = errorResponse.message;
+            } else if (errorResponse.errors && errorResponse.errors.length > 0) {
+              errorMessage = errorResponse.errors.join(', ');
+            }
           } else if (error.message) {
             errorMessage = error.message;
           }
