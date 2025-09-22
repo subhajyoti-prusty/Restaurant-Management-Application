@@ -41,8 +41,11 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
-// import { NzTooltipModule } from 'ng-zorro-antd/tooltip';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzCalendarModule } from 'ng-zorro-antd/calendar';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
 
 // Feedback
 import { NzAlertModule } from 'ng-zorro-antd/alert';
@@ -72,7 +75,10 @@ import { NzWaveModule } from 'ng-zorro-antd/core/wave';
 import { NzResizeObserverModule } from 'ng-zorro-antd/cdk/resize-observer';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-// import { NzConfigProviderModule } from 'ng-zorro-antd/core/config';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzFloatButtonModule } from 'ng-zorro-antd/float-button';
+import { NzQRCodeModule } from 'ng-zorro-antd/qr-code';
+import { NzSegmentedModule } from 'ng-zorro-antd/segmented';
 
 @NgModule({
   exports: [
@@ -117,8 +123,11 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzTabsModule,
     NzTagModule,
     NzTimelineModule,
-    //   NzTooltipModule,
     NzTreeModule,
+    NzImageModule,
+    NzCalendarModule,
+    NzGridModule,
+    NzTypographyModule,
 
     // Feedback
     NzAlertModule,
@@ -146,7 +155,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzResizeObserverModule,
     NzToolTipModule,
     NzIconModule,
-    //   NzConfigProviderModule,
+    NzFlexModule,
+    NzFloatButtonModule,
+    NzQRCodeModule,
+    NzSegmentedModule,
   ],
 })
 export class NgZorroModule {}
