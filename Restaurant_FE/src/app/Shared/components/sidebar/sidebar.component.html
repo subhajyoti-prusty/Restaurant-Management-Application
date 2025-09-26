@@ -1,0 +1,71 @@
+<div class="sidebar-container">
+  <!-- Sidebar Header -->
+  <div class="sidebar-header">
+    <div class="logo-container">
+      <div class="logo-text">Restaurant Management</div>
+    </div>
+  </div>
+
+  <!-- User Info -->
+  <div class="user-info">
+    <div class="user-avatar">
+      <nz-avatar [nzSize]="40" nzIcon="user"></nz-avatar>
+    </div>
+    <div class="user-details">
+      <div class="user-name">{{ getUserName() }}</div>
+      <div class="user-role">{{ userRole | titlecase }}</div>
+    </div>
+  </div>
+
+  <!-- Navigation Menu -->
+  <div class="menu-container">
+    <ul nz-menu 
+        nzMode="inline" 
+        class="sidebar-menu"
+        nzTheme="dark">
+      
+      <ng-container *ngFor="let item of menuItems">
+        <!-- Menu item without children -->
+        <li nz-menu-item 
+            *ngIf="hasAccess(item.roles) && !item.children"
+            (click)="navigateTo(item.route)"
+            [nzSelected]="isCurrentRoute(item.route)">
+          <i nz-icon [nzType]="item.icon" nzTheme="outline"></i>
+          <span>{{ item.title }}</span>
+        </li>
+
+        <!-- Menu item with children (submenu) -->
+        <li nz-submenu 
+            *ngIf="hasAccess(item.roles) && item.children"
+            [nzTitle]="submenuTitleTemplate"
+            [nzIcon]="item.icon">
+          <ng-template #submenuTitleTemplate>
+            <span>{{ item.title }}</span>
+          </ng-template>
+          <ul>
+            <li nz-menu-item 
+                *ngFor="let child of item.children"
+                (click)="navigateTo(child.route)"
+                [nzSelected]="isCurrentRoute(child.route)">
+              <i nz-icon [nzType]="child.icon" nzTheme="outline"></i>
+              <span>{{ child.title }}</span>
+            </li>
+          </ul>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
+  <!-- Sidebar Footer -->
+  <div class="sidebar-footer">
+    <button nz-button 
+            nzType="text" 
+            nzDanger 
+            class="logout-btn"
+            (click)="logout()"
+            nz-tooltip="Logout">
+      <i nz-icon nzType="logout" nzTheme="outline"></i>
+      <span>Logout</span>
+    </button>
+  </div>
+</div>
