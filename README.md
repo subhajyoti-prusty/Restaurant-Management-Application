@@ -15,9 +15,9 @@
 - **Testing**: Unit and integration tests need to be expanded.
 - **Documentation**: API documentation with Swagger/OpenAPI needs to be added.
 
-A comprehensive restaurant management system built with Spring Boot and Angular. This project features a complete authentication system and a fully functional category management module, providing a solid foundation for restaurant operations including menu management, order processing, and inventory tracking.
+A comprehensive restaurant management system built with Spring Boot and Angular. This project features a complete authentication system, full-stack category and product management, hierarchical menu structure with vegetarian classification, and 29 fully documented REST API endpoints.
 
-**Current Status**: Core authentication and category management features are complete and production-ready. A standardized API response system has been implemented for consistent client-server communication. The system demonstrates best practices in full-stack development with secure APIs, responsive UI, comprehensive validation, and robust error handling.
+**Current Status**: Core restaurant management features are complete and production-ready. The system includes comprehensive category management, advanced product management with vegetarian/non-vegetarian classification, hierarchical subcategory structure, and a standardized API response system. Demonstrates best practices in full-stack development with secure APIs, responsive UI, comprehensive validation, robust error handling, and complete API documentation.
 
 ## 🌟 Current Features
 
@@ -28,88 +28,131 @@ A comprehensive restaurant management system built with Spring Boot and Angular.
   - Role-based access control (Admin, Customer)
   - Password encryption and security
   - JWT authorization for admin endpoints
+  - 24-hour token expiration with proper error handling
 
 - **Admin Dashboard Foundation**
   - Admin routing and module structure
   - Dashboard component framework
   - Role-based navigation and access control
+  - Comprehensive admin service integration
 
 - **Complete Category Management System**
+  - Full CRUD operations (Create, Read, Update, Delete)
   - Category entity with name, description, and image support
-  - POST API endpoint for creating categories (`/api/admin/category`)
-  - GET API endpoint for retrieving all categories (`/api/admin/getCategories`)
-  - Admin service layer for category operations
-  - Database integration with MySQL
-  - **Frontend Category Management UI**
+  - Image upload with preview and validation (max 5MB, JPG/PNG/GIF)
+  - Search categories by name functionality
+  - **Frontend Category Management UI** (Complete)
     - Fully functional Add Category component
+    - View all categories with image display
     - Reactive form validation with real-time feedback
-    - Image upload with preview functionality
     - File validation service for security
-    - Input validation for name and description fields
     - Error handling and user notifications
-    - Integration with backend category APIs
+    - Integration with all backend category APIs
+
+- **Complete Subcategory Management System**
+  - Full CRUD operations for subcategories under categories
+  - Category-subcategory relationship management
+  - Search subcategories by name
+  - Public endpoints for customer access
+  - Admin-only management endpoints
+  - Hierarchical category structure support
+
+- **Advanced Product Management System**
+  - Full CRUD operations for products
+  - **Vegetarian/Non-Vegetarian Classification** with `isVeg` field
+  - Product-category-subcategory relationships
+  - Image upload support for products
+  - Price management and validation
+  - **Advanced Filtering Capabilities**:
+    - Filter by vegetarian/non-vegetarian status
+    - Filter by category and vegetarian status
+    - Filter by subcategory and vegetarian status
+    - Search products by name
+  - **Frontend Product Management UI** (Complete)
+    - Add Product component with category/subcategory selection
+    - View Product component with hierarchical display
+    - Product editing and deletion capabilities
+    - Form validation with price and vegetarian status
+    - Integration with all backend product APIs
+
+- **Hierarchical Menu Structure**
+  - Three-level hierarchy: Categories → Subcategories → Products
+  - Lazy loading for optimal performance
+  - Expandable/collapsible interface
+  - Real-time product counting per subcategory
+  - Dynamic category and subcategory selection
 
 - **Standardized API Response System**
   - Generic `ApiResponse<T>` wrapper for consistent response format
   - Standardized response structure with status codes, messages, and data
   - ResponseUtil utility for creating consistent API responses
   - Comprehensive error handling with detailed status messages
-  - Example controller demonstrating best practices
-
-- **Menu Item Management Foundation**
-  - Add Product component structure (Frontend)
-  - Product routing and navigation setup
-  - Integration with category service for product categorization
-  - Prepared infrastructure for menu item CRUD operations
+  - 29 fully documented API endpoints
 
 - **Enhanced Error Handling & Validation**
   - Custom exception classes for specific error scenarios
   - Global exception handler for centralized error management
-  - File type and size validation
+  - File type and size validation with security checks
   - Real-time form validation with custom validators
   - Comprehensive error messages and user notifications
+  - Input sanitization and security validation
 
 - **Responsive UI Framework**
-  - Angular-based frontend with routing
+  - Angular-based frontend with advanced routing
   - PrimeNG and Ng-Zorro component integration
-  - Admin and Customer module structure
+  - Admin and Customer module structure with lazy loading
   - Shared modules for consistent UI components
-  - Comprehensive UI component library integration
+  - Material Design principles with custom theming
+  - Mobile-responsive design patterns
 
 ### 🚧 In Development
-- **Category Management Enhancements**
-  - View all categories functionality (Backend complete, Frontend in progress)
-  - Category editing and deletion capabilities
-  - Category search and filtering
+- **Enhanced Dashboard Analytics**
+  - Admin analytics dashboard with charts
+  - Product statistics and category insights
+  - Real-time data visualization
 
-- **Menu Item Management System**
-  - Menu item entity and backend APIs
-  - Create, update, and delete menu items
-  - Categorize menu items with existing categories
-  - Set pricing and availability
-  - Menu item UI components (Foundation complete)
+- **Customer Menu Interface**
+  - Public menu browsing interface
+  - Category and product filtering for customers
+  - Product search and dietary preference filtering
 
 ### 📋 Planned Features
 - **Order Processing System**
   - Create and manage customer orders
-  - Track order status in real-time
+  - Shopping cart functionality
+  - Order status tracking in real-time
   - Generate bills and receipts
-  - Order history and tracking
+  - Order history and management
 
 - **Enhanced Dashboard Features**
-  - Admin analytics dashboard
+  - Advanced admin analytics with charts
   - Customer order dashboard
-  - Real-time statistics and charts
+  - Real-time statistics and reports
+  - Revenue and sales tracking
 
 - **Inventory Management**
-  - Track ingredient usage
-  - Manage stock levels
-  - Low-stock alerts
+  - Track ingredient usage and stock levels
+  - Low-stock alerts and notifications
+  - Supplier management
+  - Cost analysis and profit margins
 
-- **Reporting & Analytics**
-  - Sales reports
-  - Popular items analysis
-  - Revenue tracking
+- **Customer Features**
+  - Customer profiles and preferences
+  - Order history and favorites
+  - Rating and review system
+  - Loyalty program integration
+
+- **Advanced Reporting & Analytics**
+  - Comprehensive sales reports
+  - Popular items and trend analysis
+  - Revenue tracking and forecasting
+  - Customer behavior analytics
+
+- **System Enhancements**
+  - Email notifications for orders
+  - SMS integration for notifications
+  - Payment gateway integration
+  - Multi-language support
 
 ## 🛠️ Tech Stack
 
@@ -204,64 +247,115 @@ This project is optimized for development with:
 
 1. Access the application at `http://localhost:4200`
 2. Register a new account through the signup page or login with existing credentials
-3. Currently available features:
-   - User registration and authentication
-   - Role-based routing (Admin/Customer dashboards)
-   - Admin: Complete category management system
-     - Add new categories with images
-     - Retrieve all categories (backend ready)
-     - Form validation and error handling
-     - Real-time input validation
-     - Standardized API responses
-   - Backend support for comprehensive category operations
-   - Standardized error handling and API responses
+3. **Current Features Available:**
 
-**Note**: This is an active development version. Category listing UI, menu item management, order processing, and additional category features (edit, delete) are currently in development.
+### For Admin Users:
+- **Complete Category Management:**
+  - Create categories with image upload and validation
+  - View all categories in a responsive grid layout
+  - Search categories by name
+  - Edit and update category details and images
+  - Delete categories with confirmation
+
+- **Advanced Subcategory Management:**
+  - Create subcategories under specific categories
+  - View and manage subcategory hierarchies
+  - Edit and delete subcategories
+  - Search subcategories by name
+
+- **Comprehensive Product Management:**
+  - Create products with category/subcategory assignment
+  - Vegetarian/Non-vegetarian classification
+  - Upload product images with validation
+  - Set pricing and detailed descriptions
+  - View products in hierarchical structure (Categories → Subcategories → Products)
+  - Filter products by dietary preferences (vegetarian/non-vegetarian)
+  - Search products by name
+  - Edit and update product details
+  - Delete products with confirmation
+
+- **Advanced Filtering and Search:**
+  - Filter products by category and dietary preferences
+  - Filter products by subcategory and dietary preferences
+  - Real-time search across categories, subcategories, and products
+  - Hierarchical navigation with expandable sections
+
+- **Dashboard Features:**
+  - Centralized admin dashboard
+  - Quick access to all management modules
+  - Statistics and overview (foundation ready)
+
+### System Features:
+- **Secure Authentication:** JWT-based login with role-based access control
+- **Responsive Design:** Works on desktop, tablet, and mobile devices
+- **Real-time Validation:** Form validation with instant feedback
+- **Image Upload:** Support for JPG, PNG, GIF files up to 5MB
+- **Error Handling:** Comprehensive error messages and notifications
+- **API Integration:** 29 REST endpoints for complete system management
+
+### For Developers:
+- **Complete API Documentation:** See [API_Documentation.md](API_Documentation.md)
+- **Standardized Response Format:** All APIs return consistent `ApiResponse<T>` format
+- **Testing Endpoints:** Development endpoints for API testing and validation
+- **cURL Examples:** Ready-to-use command line examples for all endpoints
+
+**Note**: Customer interface, order processing, and inventory management features are planned for upcoming releases. The current system provides a complete foundation for restaurant menu management with advanced categorization and product classification.
 
 ## 📊 API Documentation
 
-API documentation will be available once Swagger/OpenAPI is integrated. Currently, the following endpoints are available:
+**Complete API Documentation**: See [API_Documentation.md](API_Documentation.md) for comprehensive API documentation including:
+- All 29 REST API endpoints with detailed specifications
+- Request/response examples for every endpoint
+- Authentication and authorization details
+- Error handling and status codes
+- Data models and schemas
+- Testing examples with cURL commands
+- Postman collection information
 
-### Authentication Endpoints
+### Quick API Reference
+
+#### Authentication APIs
 - `POST /api/auth/signup` - User registration
-- `POST /api/auth/login` - User authentication
+- `POST /api/auth/login` - User authentication with JWT
 
-### Admin Endpoints
-- `POST /api/admin/category` - Create new food category (JWT required)
-  - Supports multipart file upload for category images
-  - Input validation for name and description
-  - File type and size validation
-  - Returns created category with ID and image data
-- `GET /api/admin/getCategories` - Retrieve all categories (JWT required)
-  - Returns standardized ApiResponse with category list
-  - Includes category ID, name, description, and image data
+#### Category Management APIs (Admin Only)
+- `POST /api/admin/category` - Create category with image upload
+- `GET /api/admin/getCategories` - Get all categories
+- `GET /api/admin/searchCategories/{title}` - Search categories
+- `GET /api/admin/category/{categoryId}` - Get category by ID
+- `PUT /api/admin/category/{categoryId}` - Update category
+- `DELETE /api/admin/category/{categoryId}` - Delete category
 
-### Standardized API Response Format
-All endpoints now return responses in the standardized `ApiResponse<T>` format:
-```json
-{
-  "statusCode": 200,
-  "status": "SUCCESS",
-  "message": "Operation completed successfully",
-  "data": { ... },
-  "timestamp": "2025-09-06T10:30:00",
-  "errors": null
-}
-```
+#### Subcategory Management APIs (Admin Only)
+- `POST /api/subcategories/create` - Create subcategory
+- `GET /api/subcategories/all` - Get all subcategories
+- `GET /api/subcategories/by-category/{categoryId}` - Get subcategories by category
+- `PUT /api/subcategories/update/{subcategoryId}` - Update subcategory
+- `DELETE /api/subcategories/delete/{subcategoryId}` - Delete subcategory
 
-### Example Endpoints (Development/Testing)
-- `GET /api/example/success-with-data` - Example successful response with data
-- `GET /api/example/success-with-list` - Example successful response with list
-- `POST /api/example/create` - Example resource creation
-- `GET /api/example/validation-error` - Example validation error response
+#### Product Management APIs (Admin Only)
+- `POST /api/admin/{categoryId}/product` - Create product with veg/non-veg classification
+- `GET /api/admin/getProducts` - Get all products
+- `GET /api/admin/searchProducts/{title}` - Search products
+- `GET /api/admin/products/subcategory/{subcategoryId}` - Get products by subcategory
+- `GET /api/admin/products/veg/{isVeg}` - Filter products by vegetarian status
+- `PUT /api/admin/product/{productId}` - Update product
+- `DELETE /api/admin/product/{productId}` - Delete product
 
-### File Upload Requirements
-- **Supported formats**: JPG, JPEG, PNG, GIF
-- **Maximum file size**: 5MB per image
-- **Image processing**: Automatic compression and storage
-- **Validation**: Real-time client and server-side validation
+### Recent API Updates
+- **✅ Product Vegetarian Classification**: Added `isVeg` field to products with filtering APIs
+- **✅ Subcategory Management**: Complete CRUD operations for subcategories
+- **✅ Enhanced Product APIs**: Support for category and subcategory associations
+- **✅ Standardized Response Format**: All APIs now use consistent `ApiResponse<T>` wrapper
+- **✅ Advanced Filtering**: Products can be filtered by category, subcategory, and vegetarian status
+- **✅ Image Upload Support**: Categories and products support image upload with validation
 
-*More endpoints will be documented as features are implemented.*
+### API Features
+- **JWT Authentication**: Secure token-based authentication for protected endpoints
+- **File Upload Support**: Image upload for categories and products (max 5MB, JPG/PNG/GIF)
+- **Input Validation**: Comprehensive server-side validation with detailed error messages
+- **Error Handling**: Standardized error responses with proper HTTP status codes
+- **CORS Configuration**: Configured for frontend integration
 
 ## 📁 Project Structure
 
@@ -324,7 +418,7 @@ Restaurant-Management-Application/
 
 ## 🚧 Development Status & Roadmap
 
-### Phase 1: Foundation ✅
+### Phase 1: Foundation ✅ COMPLETED
 - [x] Project structure setup
 - [x] Spring Boot backend with MySQL integration
 - [x] Angular frontend with routing
@@ -332,40 +426,109 @@ Restaurant-Management-Application/
 - [x] User registration and login
 - [x] Basic security configuration
 - [x] Role-based access control
-- [x] Category entity and backend API
-- [x] Admin controller with JWT authorization
-
-### Phase 2: Core Features (In Progress)
-- [x] Complete category management system (Frontend & Backend)
-- [x] Category form validation and file upload
-- [x] Category management UI with reactive forms
 - [x] Standardized API response system with ApiResponse wrapper
-- [x] Enhanced error handling and custom exceptions
-- [x] Category retrieval API endpoint
-- [x] Menu item management foundation (Frontend structure)
-- [ ] Category listing, editing, and deletion UI components
-- [ ] Complete menu item management system
-- [ ] Order processing workflow
-- [ ] Enhanced admin dashboard with analytics
-- [ ] Customer dashboard implementation
-- [ ] API documentation with Swagger
 
-### Phase 3: Advanced Features (Future)
-- [ ] Inventory management
-- [ ] Reporting and analytics
-- [ ] Real-time notifications
-- [ ] Payment integration
-- [ ] Mobile optimization
+### Phase 2: Core Management Features ✅ COMPLETED
+- [x] **Complete Category Management System**
+  - [x] Backend APIs (Create, Read, Update, Delete, Search)
+  - [x] Frontend UI components with full functionality
+  - [x] Image upload and validation
+  - [x] Form validation and error handling
+
+- [x] **Complete Subcategory Management System**
+  - [x] Backend APIs with category relationships
+  - [x] CRUD operations and search functionality
+  - [x] Public and admin endpoints
+  - [x] Hierarchical structure support
+
+- [x] **Advanced Product Management System**
+  - [x] Backend APIs with full CRUD operations
+  - [x] Vegetarian/Non-vegetarian classification with `isVeg` field
+  - [x] Advanced filtering by category, subcategory, and dietary preferences
+  - [x] Frontend UI with hierarchical product view
+  - [x] Product creation, editing, and deletion interfaces
+  - [x] Image upload and price validation
+
+- [x] **Comprehensive API Documentation**
+  - [x] 29 fully documented REST endpoints
+  - [x] Request/response examples for all APIs
+  - [x] Error handling documentation
+  - [x] Authentication and authorization guide
+
+### Phase 3: Enhanced Features (In Progress)
+- [ ] **Advanced Dashboard Analytics**
+  - [ ] Admin analytics with charts and statistics
+  - [ ] Product performance metrics
+  - [ ] Category and subcategory insights
+  - [ ] Revenue tracking dashboard
+
+- [ ] **Customer Interface Enhancements**
+  - [ ] Public menu browsing interface
+  - [ ] Advanced filtering for customers (vegetarian, category, price)
+  - [ ] Product search and recommendation system
+  - [ ] Mobile-optimized menu interface
+
+- [ ] **System Optimizations**
+  - [ ] Database indexing for performance
+  - [ ] Caching mechanisms for frequently accessed data
+  - [ ] Image compression and optimization
+  - [ ] API rate limiting and security enhancements
+
+### Phase 4: Advanced Features (Planned)
+- [ ] **Order Processing System**
+  - [ ] Shopping cart functionality
+  - [ ] Order creation and management
+  - [ ] Order status tracking
+  - [ ] Receipt generation
+
+- [ ] **Customer Management**
+  - [ ] Customer profiles and preferences
+  - [ ] Order history tracking
+  - [ ] Loyalty program integration
+  - [ ] Rating and review system
+
+- [ ] **Advanced Analytics & Reporting**
+  - [ ] Sales reports and trends
+  - [ ] Popular items analysis
+  - [ ] Customer behavior analytics
+  - [ ] Inventory tracking and management
+
+### Phase 5: Production & Scaling (Future)
+- [ ] **Production Deployment**
+  - [ ] Environment configuration management
+  - [ ] Docker containerization
+  - [ ] CI/CD pipeline setup
+  - [ ] Production database configuration
+
+- [ ] **Integration & Extensions**
+  - [ ] Payment gateway integration
+  - [ ] Email notification system
+  - [ ] SMS notifications
+  - [ ] Third-party service integrations
+
+## Current Status Summary
+- **Backend**: ✅ Production-ready with 29 API endpoints
+- **Database**: ✅ Complete schema with relationships
+- **Frontend**: ✅ Full admin interface with responsive design
+- **Authentication**: ✅ Secure JWT-based system
+- **Documentation**: ✅ Comprehensive API and setup documentation
+- **Testing**: ✅ Build validation and error handling tested
+
+**Overall Progress**: ~75% of core restaurant management features completed
 
 ## Recent Updates (Development Branch)
-- **Standardized API Response System**: Implemented generic `ApiResponse<T>` wrapper with ResponseUtil for consistent API responses
-- **Enhanced Category Management**: Added GET endpoint for retrieving all categories with standardized response format
-- **Menu Item Management Foundation**: Created Add Product component structure and routing for future menu item features
-- **Advanced Error Handling**: Comprehensive exception handling with custom exception classes and global exception handler
-- **Example Controller**: Added development/testing endpoints demonstrating API response best practices
-- **File Upload & Validation Enhancements**: Improved file validation with detailed error handling
-- **UI Component Integration**: Enhanced PrimeNG and Ng-Zorro component integration for better user experience
-- **Type Safety Improvements**: Added comprehensive TypeScript interfaces for API responses and data models
+- **🆕 Complete Product Management System**: Implemented full CRUD operations for products with vegetarian/non-vegetarian classification
+- **🆕 Advanced Product Filtering**: Added 8+ new API endpoints for filtering products by category, subcategory, and dietary preferences
+- **🆕 Hierarchical Menu Structure**: Three-level hierarchy (Categories → Subcategories → Products) with lazy loading
+- **🆕 Complete Subcategory Management**: Full CRUD operations with category relationships and search functionality
+- **🆕 Comprehensive API Documentation**: 29 fully documented endpoints in [API_Documentation.md](API_Documentation.md)
+- **🆕 Enhanced Frontend UI**: Complete product management interface with hierarchical display and advanced form validation
+- **✅ Vegetarian Classification System**: Products now include `isVeg` field with database migration and API support
+- **✅ Advanced Error Handling**: Comprehensive exception handling with custom exception classes and global exception handler
+- **✅ File Upload & Validation Enhancements**: Improved file validation with detailed error handling and security checks
+- **✅ UI Component Integration**: Enhanced PrimeNG and Ng-Zorro component integration for better user experience
+- **✅ Type Safety Improvements**: Added comprehensive TypeScript interfaces for API responses and data models
+- **✅ Database Schema Optimization**: Added indexes and constraints for better performance
 
 ## 🤝 Contributing
 
