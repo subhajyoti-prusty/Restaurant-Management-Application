@@ -1,0 +1,93 @@
+<div class="img-upload-container">
+  <!-- Upload Area -->
+  <div class="upload-area" 
+       [class.has-image]="selectedFile && showPreview"
+       [class.drag-over]="isDragOver"
+       [class.disabled]="disabled"
+       [class.error]="error"
+       [class.uploading]="isUploading"
+       (click)="!isUploading && triggerFileUpload()"
+       (dragover)="onDragOver($event)"
+       (dragleave)="onDragLeave($event)"
+       (drop)="onDrop($event)">
+    
+    <!-- Image Preview (for newly selected files) -->
+    <div class="image-preview" *ngIf="selectedFile && imagePreview && showPreview && !showExistingImage">
+      <img [src]="imagePreview" [alt]="getFileName()" class="preview-image">
+      <div class="image-overlay">
+        <div class="overlay-content">
+          <i class="upload-icon">📷</i>
+          <span class="overlay-text">Click to change</span>
+        </div>
+        <button type="button" 
+                class="remove-btn" 
+                (click)="$event.stopPropagation(); removeFile()"
+                *ngIf="!disabled">
+          <i class="remove-icon">❌</i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Existing Image Preview -->
+    <div class="existing-image-preview" *ngIf="showExistingImage && imagePreview && showPreview">
+      <img [src]="imagePreview" alt="Existing image" class="preview-image existing-image">
+      <div class="image-overlay existing-overlay">
+        <div class="overlay-content">
+          <i class="upload-icon">📷</i>
+          <span class="overlay-text">Click to change image</span>
+        </div>
+        <div class="existing-badge">Current</div>
+      </div>
+    </div>
+    
+    <!-- Upload Placeholder -->
+    <div class="upload-placeholder" *ngIf="!selectedFile && !showExistingImage">
+      <div class="upload-content">
+        <div class="upload-icon">☁️</div>
+        <div class="upload-text">{{ placeholder }}</div>
+        <div class="upload-hint" *ngIf="!disabled">
+          Maximum: {{ formatFileSize(maxFileSize) }} | 
+          Formats: {{ getAcceptedFormatsString() }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden File Input -->
+    <input type="file" 
+           #fileInput
+           class="file-input"
+           [accept]="acceptedFormats.join(',')" 
+           [disabled]="disabled"
+           (change)="onFileSelected($event)"
+           (click)="$event.stopPropagation()">
+  </div>
+
+  <!-- File Info (when not showing preview) -->
+  <div class="file-info" *ngIf="selectedFile && !showPreview">
+    <div class="file-details">
+      <div class="file-name">
+        <i class="file-icon">📄</i>
+        <span>{{ getFileName() }}</span>
+      </div>
+      <div class="file-size">{{ getFileSize() }}</div>
+    </div>
+    <button type="button" 
+            class="remove-file-btn" 
+            (click)="removeFile()"
+            *ngIf="!disabled">
+      <i class="remove-icon">🗑️</i>
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  <div class="error-message" *ngIf="error">
+    <i class="error-icon">⚠️</i>
+    <span>{{ error }}</span>
+  </div>
+
+  <!-- Success Message -->
+  <div class="success-message" *ngIf="selectedFile && !error">
+    <i class="success-icon">✅</i>
+    <span>File uploaded successfully: {{ getFileName() }} ({{ getFileSize() }})</span>
+  </div>
+</div>
